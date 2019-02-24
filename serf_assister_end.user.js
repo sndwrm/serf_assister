@@ -16,7 +16,7 @@ const DEBUG_TYPE = true;//true = log, dumps DOM in html. false = dir, dumps DOM 
 const DEBUG_MARK = "Serf_assister_end: ";
 const DEBUG_ALLOW_MESSAGES = true;
 const CURRENT_HOST = window.location.hostname;
-const MANAGED_HOSTS = ['www.xvideos.com', 'mail.zoho.com', 'aliexpress.com'];
+const MANAGED_HOSTS = ['mail.zoho.com', 'aliexpress.com'];
 const SCRIPT_VERSION = "1.0.0.1";
 const QUOTES_TYPE = "double";//"SINGLE". Quotes to use when cleaning string.
 const CURRENT_WINDOW = unsafeWindow;
@@ -25,24 +25,18 @@ const CURRENT_WINDOW = unsafeWindow;
 console.log(DEBUG_MARK + "Loaded script v." + SCRIPT_VERSION);
 
 function to_decent_string(string_to_clean) {
-    // let return_string = "";
     if (typeof string_to_clean !== 'string') {
         try {
-            string_to_clean = string_to_clean.toString();
+            return string_to_clean.toString().replace(/\\\/&;$%@"<>+'/g, "");
         } catch (e) {
             return "";
         }
-    }
-    return_string = string_to_clean.toISOString();
-    return_string = return_string.replace(/"/g, "\"");
-    return_string = return_string.replace(/\\"/g, "\"");
-    return_string = return_string.replace(/'/g, "\"");
-    return_string = return_string.replace(/[|&;$%@"<>()+,]/g, "");
-    return return_string;
+    } else return string_to_clean.replace(/\\\/&;$%@"<>+'/g, "");
 }
 
 function debug(message) {
     if (!DEBUG_ALLOW_MESSAGES) return;
+    message = to_decent_string(message);
     var debug_message = "";
     var message_type = typeof message;
     switch (message_type) {
@@ -68,21 +62,9 @@ function host_among_managed(host_url) {
 }
 
 function manage_host(host_url) {
+    host_url = to_decent_string(host_url);
     try {
         switch (host_url) {
-            case 'www.xvideos.com':
-//   jQuery(document).ready(function($){
-//     if (!$('#video-sponsor-links').remove()) alert('falied to remove video-sponsor-links');
-//     $('#ad-footer').remove();
-//     $('#ad-footer2').remove();
-//     $('#footer').remove();
-//     if (!$('a').remove('.show-more')) alert('failed to remove show-more button');
-//     $('a').remove('.btn.btn-default.menu-login-acct.mobile-hide');
-//     $('div').remove('.remove-ads');
-//     $('#tabComments').css('display', 'none');
-//     $('#tabComments_btn').toggleClass('active');
-//     $('#video-tabs').toggleClass('disp-tabComments')
-                break;
             case 'mail.zoho.com':
                 console.log('Serf_assister_end mark 1');
                 var right_menu_bottom_buttons = document.getElementById("jsZmChatBarIcons");
@@ -223,3 +205,15 @@ debug("extension.isAllowedFileSchemeAccess: " + extension.isAllowedFileSchemeAcc
 // GM.setClipboard - Sets the contents of the clipboard.
 // GM.xmlHttpRequest - A variant of XMLHttpRequest, this method allows skipping use the same-origin policy, enabling
 // complex mashups.
+
+//   jQuery(document).ready(function($){
+//     if (!$('#video-sponsor-links').remove()) alert('falied to remove video-sponsor-links');
+//     $('#ad-footer').remove();
+//     $('#ad-footer2').remove();
+//     $('#footer').remove();
+//     if (!$('a').remove('.show-more')) alert('failed to remove show-more button');
+//     $('a').remove('.btn.btn-default.menu-login-acct.mobile-hide');
+//     $('div').remove('.remove-ads');
+//     $('#tabComments').css('display', 'none');
+//     $('#tabComments_btn').toggleClass('active');
+//     $('#video-tabs').toggleClass('disp-tabComments')
