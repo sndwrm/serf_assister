@@ -25,12 +25,12 @@ const CURRENT_WINDOW = unsafeWindow;
 console.log(DEBUG_MARK + "Loaded script v." + SCRIPT_VERSION);
 
 function to_decent_string(string_to_clean) {
-    let return_string = "";
-    if (typeof string_to_clean != 'string') {
+    // let return_string = "";
+    if (typeof string_to_clean !== 'string') {
         try {
             string_to_clean = string_to_clean.toString();
         } catch (e) {
-            return_string = "";
+            return "";
         }
     }
     return_string = string_to_clean.toISOString();
@@ -62,14 +62,14 @@ function debug(message) {
 
 function host_among_managed(host_url) {
     for (var i = 0; i < MANAGED_HOSTS.length; i++) {
-        if (host_url == MANAGED_HOSTS[i]) return true;
+        if (host_url === MANAGED_HOSTS[i]) return true;
     }
     return false;
 }
 
 function manage_host(host_url) {
     try {
-        switch (CURRENT_HOST) {
+        switch (host_url) {
             case 'www.xvideos.com':
 //   jQuery(document).ready(function($){
 //     if (!$('#video-sponsor-links').remove()) alert('falied to remove video-sponsor-links');
