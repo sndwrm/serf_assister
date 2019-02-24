@@ -16,18 +16,15 @@ const DEBUG_TYPE = true;//true = log, dumps DOM in html. false = dir, dumps DOM 
 const DEBUG_MARK = "Serf_assister_end: ";
 const DEBUG_ALLOW_MESSAGES = true;
 const CURRENT_HOST = window.location.hostname;
-const MANAGED_HOSTS = ['mail.zoho.com', 'aliexpress.com'];
-const SCRIPT_VERSION = "1.0.0.1";
-const QUOTES_TYPE = "double";//"SINGLE". Quotes to use when cleaning string.
+const MANAGED_HOSTS = ['mail.zoho.com', 'aliexpress.com', 'duckduckgo.com'];
 const CURRENT_WINDOW = unsafeWindow;
-
 
 console.log(DEBUG_MARK + "Loaded script v." + SCRIPT_VERSION);
 
 function to_decent_string(string_to_clean) {
     if (typeof string_to_clean !== 'string') {
         try {
-            return string_to_clean.toString().replace(/\\\/&;$%@"<>+'/g, "");
+            return string_to_clean.toString().replace(/\\\/&;$%@"<>+'/g, "").trim();
         } catch (e) {
             return "";
         }
@@ -73,10 +70,12 @@ function manage_host(host_url) {
             case 'aliexpress.com':
             //    TODO: remove item: <div class="ui-window ui-window-normal ui-window-transition ui-newuser-layer-dialog" tabindex="-1" data-widget-cid="widget-22" style="width: 680px; height: 440px; z-index: 999; display: block; left: 91.5px; top: 69px;">
             //    and: <div data-widget-cid="widget-0" class="ui-mask" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 999; display: block; opacity: 0.4; background-color: rgb(0, 0, 0);"></div>
+            case 'duckduckgo.com':
+            // TODO: fixate search field to top, so it stays when u scroll
             default:
         }
     } catch (e) {
-        console.log('Serf_assister_end exception: ' + e.message);
+        debug(e.message);
     } finally {
 
     }
